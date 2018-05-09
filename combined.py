@@ -33,7 +33,6 @@ fetch_layout_url = "/layouts?locationid=%s"
 
 @app.route("/")
 def function():
-    ans = []
     names = []
     sigs = []
     # Login to Mojo Launchpad
@@ -72,13 +71,12 @@ def function():
     # Fetch client by username
     search_filter = {
         "property": "username",
-        "value"   : ["nspring"],
+        "value"   : ["jworden"],
         "operator": "="
     }
     fetch_client_url_parsed = mwm_url + webservice_url + webservice_version_url + mwm_devices_url + \
                               fetch_client_paginated_url + "?filter=" + \
                               urlparse.quote(json.dumps(search_filter))
-
     fetch_client_r = rq.request(method="get", url=fetch_client_url_parsed, cookies=mwm_cookies, headers=header)
     client_box_id = None
     if fetch_client_r.status_code == 200:
@@ -86,8 +84,10 @@ def function():
         if not client_json["clientList"]:
             print("Search Failed")
             return "User not found, try again"
+
         client_box_id = client_json["clientList"][0]["boxId"]
         client_name = client_json["clientList"][0]["name"]
+
     else:
         print("Search Failed")
         return "User not found, try again"
@@ -107,24 +107,41 @@ def function():
                 device_signal_strength = observing_devices_json[i]["signalStrength"]
                 #if "RM4" in device_name or "HW4" in device_name:
                 observing_device_list[device_box_id] = device_signal_strength
-                if "AVW4" in device_name:
-                    names.append(device_name[3:7])
-                    sigs.append(device_signal_strength)
-                ans.append(("[Device: %s] [Box ID: %02d] [Signal Strength: %d]") % (device_name,
-                                                                                    device_box_id,
-                                                                                    device_signal_strength))
+                if "AVW3" in device_name:
+                    pic = "avw3.png"
+                    if "AVW3" in device_name:
+                        names.append(device_name[3:7])
+                        sigs.append(device_signal_strength)
+                elif "AVW4" in device_name:
+                    pic = "avw4.png"
+                    if "AVW4" in device_name:
+                        names.append(device_name[3:7])
+                        sigs.append(device_signal_strength)
         else:
             print("Failed")
     else:
+        print("odd")
         exit(0)
-
-    names = names[0:3]
-    sigs = sigs[0:3]
 
     print(names)
     print(sigs)
 
-    apLocs = {"4-01":(23,22),
+    names = names[0:3]
+    sigs = sigs[0:3]
+
+    
+
+    apLocs = {  "3-01":(14,30),
+                "3-03":(23,78),
+                "3-04":(57,86),
+                "3-05":(125,86),
+                "3-06":(156,29),
+                "3-07":(162,63),
+                "3-08":(79,35),
+                "3-09":(125,9),
+                "3-10":(183,12),
+                "3-11":(194,75),
+                "4-01":(23,22),
                 "4-02":(17,75),
                 "4-03":(57,90),
                 "4-04":(42,37),
@@ -196,7 +213,12 @@ def function():
     ans2 = int(location[1] * 4.84210526316)
 
     return ("""
-        <img src='img/avw4.png'/>
+        <img src='img/""" + pic + """'/>
+        <script>
+            setTimeout(function(){
+                window.location.reload(1);
+            }, 5000);
+        </script>
         <style>
             .circle {
                 height: 10px;
