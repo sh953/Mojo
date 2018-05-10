@@ -13,12 +13,12 @@ from flask import Flask
 
 app = Flask(__name__, static_url_path = "/img", static_folder = "img")
 
-# Global params
+user = ["nspring"]
+
 key_id = "KEY-ATN563405-456"
 key_value = "e8311505a2d3a6d2156152e206839910"
 header = {'Content-Type': 'application/json', 'Accept-Encoding': 'gzip'}
 
-# API URLs
 dashboard_url = "https://dashboard.mojonetworks.com/rest/api/v2"
 service_url = "/services"
 webservice_url = "/new/webservice"
@@ -72,7 +72,7 @@ def function():
     # Fetch client by username
     search_filter = {
         "property": "username",
-        "value"   : ["shifeng"],
+        "value"   : user,
         "operator": "="
     }
     fetch_client_url_parsed = mwm_url + webservice_url + webservice_version_url + mwm_devices_url + \
@@ -131,6 +131,10 @@ def function():
     print(names)
     print(sigs)
 
+    if "4-" in names[0]:
+    	pic = "avw4_full.jpeg"
+    elif "3-" in names[0]:
+    	pic = "avw3_full.jpeg"
     names = names[0:3]
     sigs = sigs[0:3]
 
@@ -208,8 +212,8 @@ def function():
         </script>
         <style>
             .circle {
-                height: 10px;
-                width: 10px;
+                height: 20px;
+                width: 20px;
                 position: absolute;
                 background-color: red;
                 border-radius: 50%;

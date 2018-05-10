@@ -71,7 +71,7 @@ def function():
     # Fetch client by username
     search_filter = {
         "property": "username",
-        "value"   : ["jworden"],
+        "value"   : ["agrawala"],
         "operator": "="
     }
     fetch_client_url_parsed = mwm_url + webservice_url + webservice_version_url + mwm_devices_url + \
@@ -123,12 +123,13 @@ def function():
         print("odd")
         exit(0)
 
-    print(names)
-    print(sigs)
-
     names = names[0:3]
     sigs = sigs[0:3]
 
+    if int(names[0][0]) == 4:
+        pic = "avw4.png"
+    elif int(names[0][0]) == 3:
+        pic = "avw3.png"
     
 
     apLocs = {  "3-01":(14,30),
@@ -221,8 +222,8 @@ def function():
         </script>
         <style>
             .circle {
-                height: 10px;
-                width: 10px;
+                height: 25px;
+                width: 25px;
                 position: absolute;
                 background-color: red;
                 border-radius: 50%;
