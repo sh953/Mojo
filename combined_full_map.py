@@ -13,7 +13,7 @@ from flask import Flask
 
 app = Flask(__name__, static_url_path = "/img", static_folder = "img")
 
-user = ["nspring"]
+user = ["hanand@umd.edu"]
 
 key_id = "KEY-ATN563405-456"
 key_value = "e8311505a2d3a6d2156152e206839910"
